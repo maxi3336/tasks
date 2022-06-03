@@ -1,7 +1,10 @@
 import {
   XIcon,
   SearchIcon as Search,
-  MenuAlt4Icon
+  MenuAlt4Icon,
+  HomeIcon as Home,
+  CalendarIcon as Calendar,
+  CheckIcon as Check
 } from '@heroicons/react/outline'
 import { ElementType, FC, ComponentProps } from 'react'
 
@@ -13,7 +16,7 @@ const IconWrapper: FC<ComponentProps<'svg'> & { icon: ElementType }> = ({
   let classNames = 'w-8 h-8 text-slate-500 cursor-pointer'
 
   if (className) {
-    classNames += ' ' + className
+    classNames = className + ' ' + classNames
   }
 
   return <Icon className={classNames} {...props} />
@@ -29,4 +32,16 @@ export const SearchIcon = (props: ComponentProps<'svg'>) => (
 
 export const MenuIcon = (props: ComponentProps<'svg'>) => (
   <IconWrapper icon={MenuAlt4Icon} {...props} />
+)
+
+export const HomeIcon = (props: ComponentProps<'svg'>) => (
+  <IconWrapper icon={Home} {...props} />
+)
+
+export const CalendarIcon = (props: ComponentProps<'svg'>) => (
+  <IconWrapper icon={Calendar} {...props} />
+)
+
+export const CheckIcon = (props: ComponentProps<'svg'>) => (
+  <IconWrapper icon={Check} {...props} />
 )
