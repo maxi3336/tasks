@@ -1,42 +1,66 @@
 import { motion } from 'framer-motion'
+import { useDispatch, useSelector } from 'react-redux'
+import { toggle, create, taskState, taskType } from 'features/tasks/tasksSlice'
+import { IRootState } from 'app/store'
+import { FC } from 'react'
+import chroma from 'chroma-js'
 
-const tasks = [
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-]
+export const Tasks = () => {
+  const tasks: taskState[] = useSelector<IRootState, taskState[]>(
+    (state) => state.tasks
+  )
+  const dispatch = useDispatch()
 
-export const Tasks = () => (
-  <>
-    <div className="flex flex-col flex-1 sm:pr-16">
-      <span className="text-sm text-slate-500 font-medium tracking-wider mb-4 px-6 sm:px-24">
-        TODAYS TASKS
-      </span>
-      <div className="h-0 w-full pb-4 flex-auto overflow-y-auto overflow-x-hidden">
-        <div className="flex flex-col gap-4 pb-20 sm:pb-0">
-          {tasks.map((task, index) => (
-            <motion.div
-              key={'t' + index}
-              className="mx-6 sm:ml-24 sm:mr-6 rounded-xl grid grid-cols-task items-center gap-4 p-4 bg-white shadow-md shadow-slate-400"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="h-6 w-6 border-2 border-purple-500 rounded-full" />
-              <span className="w-full break-words text-sm">
-                Task text content
-              </span>
-            </motion.div>
-          ))}
+  return (
+    <>
+      <div className="flex flex-col flex-1 sm:pr-16">
+        <span className="text-sm text-slate-500 font-medium tracking-wider mb-4 px-6 sm:px-24">
+          TODAYS TASKS
+        </span>
+        <div className="h-0 w-full pb-4 flex-auto overflow-y-auto overflow-x-hidden">
+          <div className="flex flex-col gap-4 pb-20 sm:pb-0">
+            {tasks.map((task) => (
+              <motion.div
+                key={task.id}
+                className="mx-6 sm:ml-24 sm:mr-6 rounded-xl grid grid-cols-task items-center gap-4 p-4 bg-white shadow-md shadow-slate-400"
+                whileHover={{ scale: 1.02 }}
+              >
+                <div
+                  className="h-6 w-6 border-2 rounded-full"
+                  onClick={() => dispatch(toggle(task.id))}
+                  style={{
+                    borderColor: task.color,
+                    background: task.completed
+                      ? chroma(task.color).alpha(0.5).hex()
+                      : 'transparent'
+                  }}
+                />
+                <span className="w-full break-words text-sm">
+                  Task text content
+                </span>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
 
-    <AddTask />
-  </>
-)
+      <AddTask onCreate={(newTask: taskType) => dispatch(create(newTask))} />
+    </>
+  )
+}
 
-const AddTask = () => (
+const AddTask: FC<{ onCreate: (task: taskType) => void }> = ({ onCreate }) => (
   <motion.button
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
     className="rounded-full bg-blue-600 w-16 h-16 flex items-center cursor-pointer justify-center absolute bottom-4 right-4 shadow-lg shadow-slate-400"
+    onClick={() =>
+      onCreate({
+        color: '#333333',
+        completed: false,
+        content: 'Hello'
+      })
+    }
   >
     <span className="-mt-1.5 text-5xl text-white">+</span>
   </motion.button>

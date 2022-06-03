@@ -1,9 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import counterReducer from '../features/counter/counterSlice'
+import tasksReducer, { taskState } from 'features/tasks/tasksSlice'
+
+export interface IRootState {
+  tasks: taskState[]
+}
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer
+    tasks: tasksReducer
   }
 })
 
