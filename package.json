@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "ui": "file:./src/ui",
+    "features": "file:./src/features",
+    "components": "file:./src/components",
+    "pages": "file:./src/pages",
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",

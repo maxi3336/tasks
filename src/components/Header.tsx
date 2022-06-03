@@ -1,6 +1,6 @@
-import { MenuAlt4Icon, SearchIcon } from '@heroicons/react/outline'
 import { useState } from 'react'
-import { Sidebar } from './Sidebar'
+import { MenuIcon, SearchIcon } from 'ui/Icons'
+import { Sidebar } from 'components/Sidebar'
 
 export const Header = () => {
   const [sidebar, setSidebar] = useState(false)
@@ -10,11 +10,8 @@ export const Header = () => {
   return (
     <>
       <header className="mt-8 flex items-center justify-between px-6 sm:px-24">
-        <MenuAlt4Icon
-          className="w-8 h-8 text-slate-500"
-          onClick={toggleSidebarHandler}
-        />
-        <SearchIcon className="w-8 h-8 text-slate-500" />
+        <MenuIcon onClick={toggleSidebarHandler} />
+        <SearchIcon />
       </header>
       <Sidebar isVisible={sidebar} onClose={toggleSidebarHandler} />
     </>

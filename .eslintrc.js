@@ -14,6 +14,9 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['react', '@typescript-eslint'],
+  globals: {
+    JSX: true
+  },
   rules: {
     'react/react-in-jsx-scope': 'off',
     'space-before-function-paren': 'off'
