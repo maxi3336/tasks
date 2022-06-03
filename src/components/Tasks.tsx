@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggle, create, taskState, taskType } from 'features/tasks/tasksSlice'
+import { toggle, create, TaskState, Task } from 'features/tasks/tasksSlice'
 import { IRootState } from 'app/store'
-import { FC } from 'react'
 import chroma from 'chroma-js'
+import { CreateTask } from './CreateTask'
 
 export const Tasks = () => {
-  const tasks: taskState[] = useSelector<IRootState, taskState[]>(
+  const tasks: TaskState[] = useSelector<IRootState, TaskState[]>(
     (state) => state.tasks
   )
   const dispatch = useDispatch()
@@ -19,49 +19,30 @@ export const Tasks = () => {
         </span>
         <div className="h-0 w-full pb-4 flex-auto overflow-y-auto overflow-x-hidden">
           <div className="flex flex-col gap-4 pb-20 sm:pb-0">
-            {tasks.map((task) => (
+            {tasks.map(({ id, color, content, completed }) => (
               <motion.div
-                key={task.id}
+                key={id}
                 className="mx-6 sm:ml-24 sm:mr-6 rounded-xl grid grid-cols-task items-center gap-4 p-4 bg-white shadow-md shadow-slate-400"
                 whileHover={{ scale: 1.02 }}
               >
                 <div
                   className="h-6 w-6 border-2 rounded-full"
-                  onClick={() => dispatch(toggle(task.id))}
+                  onClick={() => dispatch(toggle(id))}
                   style={{
-                    borderColor: task.color,
-                    background: task.completed
-                      ? chroma(task.color).alpha(0.5).hex()
+                    borderColor: color,
+                    background: completed
+                      ? chroma(color).alpha(0.5).hex()
                       : 'transparent'
                   }}
                 />
-                <span className="w-full break-words text-sm">
-                  Task text content
-                </span>
+                <span className="w-full break-words text-sm">{content}</span>
               </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      <AddTask onCreate={(newTask: taskType) => dispatch(create(newTask))} />
+      <CreateTask onCreate={(newTask: Task) => dispatch(create(newTask))} />
     </>
   )
 }
-
-const AddTask: FC<{ onCreate: (task: taskType) => void }> = ({ onCreate }) => (
-  <motion.button
-    whileHover={{ scale: 1.1 }}
-    whileTap={{ scale: 0.9 }}
-    className="rounded-full bg-blue-600 w-16 h-16 flex items-center cursor-pointer justify-center absolute bottom-4 right-4 shadow-lg shadow-slate-400"
-    onClick={() =>
-      onCreate({
-        color: '#333333',
-        completed: false,
-        content: 'Hello'
-      })
-    }
-  >
-    <span className="-mt-1.5 text-5xl text-white">+</span>
-  </motion.button>
-)

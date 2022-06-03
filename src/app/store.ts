@@ -1,8 +1,8 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import tasksReducer, { taskState } from 'features/tasks/tasksSlice'
+import tasksReducer, { TaskState } from 'features/tasks/tasksSlice'
 
 export interface IRootState {
-  tasks: taskState[]
+  tasks: TaskState[]
 }
 
 export const store = configureStore({
