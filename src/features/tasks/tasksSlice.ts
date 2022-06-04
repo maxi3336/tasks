@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
 // import { fetchTasks } from './tasksAPI'
 
@@ -24,15 +24,47 @@ export const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    create: (state, action: { payload: Omit<Task, 'completed'> }) => [
-      ...state,
-      { id: uuidv4(), completed: false, ...action.payload }
-    ],
-    toggle: (state, action) =>
-      state.map((task) => {
-        if (task.id !== action.payload) return task
-        return { ...task, completed: !task.completed }
+    create: (state, action?: PayloadAction<Task | TaskState | string>) => {
+      if (typeof action?.payload === 'string') {
+        state.push({
+          id: state.length.toString(),
+          completed: false,
+          content: action.payload || 'Empty Task',
+          color: '#333'
+        })
+
+        return
+      }
+
+      const newTask: TaskState = action?.payload
+        ? {
+            id: (action.payload as TaskState).id || uuidv4(),
+            content: action.payload.content || 'Empty Task',
+            color: action.payload.color || '#333',
+            completed: action.payload.completed || false
+          }
+        : {
+            id: state.length.toString(),
+            completed: false,
+            content: 'Empty Task',
+            color: '#333'
+          }
+
+      state.push(newTask)
+    },
+    toggle: (state, action: PayloadAction<string>) => {
+      const task = state.find((el) => el.id === action.payload)
+
+      if (!task) {
+        return
+      }
+
+      state.forEach((el) => {
+        if (el.id === task.id) {
+          el.completed = !el.completed
+        }
       })
+    }
   }
 })
 
