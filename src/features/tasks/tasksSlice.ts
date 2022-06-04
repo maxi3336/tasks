@@ -64,10 +64,22 @@ export const tasksSlice = createSlice({
           el.completed = !el.completed
         }
       })
-    }
+    },
+    remove: (state, action: PayloadAction<string | string[]>) =>
+      state.filter((task) => {
+        if (typeof action.payload === 'string') {
+          return task.id !== action.payload
+        } else {
+          return !action.payload.includes(task.id)
+        }
+      }),
+    edit: (state, action: PayloadAction<TaskState>) =>
+      state.map((task) =>
+        task.id === action.payload.id ? action.payload : task
+      )
   }
 })
 
-export const { toggle, create } = tasksSlice.actions
+export const { toggle, create, remove, edit } = tasksSlice.actions
 
 export default tasksSlice.reducer

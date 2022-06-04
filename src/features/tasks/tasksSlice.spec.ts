@@ -1,4 +1,4 @@
-import reducer, { create, toggle, TaskState } from './tasksSlice'
+import reducer, { create, remove, toggle, edit, TaskState } from './tasksSlice'
 
 test('should return the initial state', () => {
   expect(
@@ -78,4 +78,125 @@ test("should toggle 'completed' field of a task", () => {
   ]
 
   expect(reducer(previousState, toggle('555'))).toEqual(equalState)
+})
+
+test('should remove a task with single task state', () => {
+  const previousState: TaskState[] = [
+    {
+      content: 'Remove task',
+      color: '#333',
+      completed: false,
+      id: '123'
+    }
+  ]
+
+  const equalState: TaskState[] = []
+
+  expect(reducer(previousState, remove('123'))).toEqual(equalState)
+})
+
+test('should remove a task with multiple tasks state', () => {
+  const previousState: TaskState[] = [
+    {
+      content: 'Task Content',
+      color: '#333',
+      completed: false,
+      id: '0'
+    },
+    {
+      content: 'Remove this one',
+      color: '#333',
+      completed: false,
+      id: '1'
+    },
+    {
+      content: 'Task Content',
+      color: '#333',
+      completed: false,
+      id: '2'
+    }
+  ]
+
+  const equalState: TaskState[] = [
+    {
+      content: 'Task Content',
+      color: '#333',
+      completed: false,
+      id: '0'
+    },
+    {
+      content: 'Task Content',
+      color: '#333',
+      completed: false,
+      id: '2'
+    }
+  ]
+
+  expect(reducer(previousState, remove('1'))).toEqual(equalState)
+})
+
+test('should remove some tasks', () => {
+  const previousState: TaskState[] = [
+    {
+      content: 'Task Content',
+      color: '#333',
+      completed: false,
+      id: '0'
+    },
+    {
+      content: 'Remove this one',
+      color: '#333',
+      completed: false,
+      id: '1'
+    },
+    {
+      content: 'Task Content',
+      color: '#333',
+      completed: false,
+      id: '2'
+    }
+  ]
+
+  const equalState: TaskState[] = [
+    {
+      content: 'Task Content',
+      color: '#333',
+      completed: false,
+      id: '0'
+    }
+  ]
+
+  expect(reducer(previousState, remove(['1', '2']))).toEqual(equalState)
+})
+
+test('should edit task', () => {
+  const prevState: TaskState[] = [
+    {
+      id: '0',
+      content: 'Task Content Prev',
+      completed: false,
+      color: '#333'
+    }
+  ]
+
+  const equalState: TaskState[] = [
+    {
+      id: '0',
+      content: 'Task Content Edited',
+      completed: true,
+      color: '#123'
+    }
+  ]
+
+  expect(
+    reducer(
+      prevState,
+      edit({
+        id: '0',
+        content: 'Task Content Edited',
+        completed: true,
+        color: '#123'
+      })
+    )
+  ).toEqual(equalState)
 })
