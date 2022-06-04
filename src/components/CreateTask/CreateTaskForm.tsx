@@ -16,7 +16,8 @@ export const CreateTaskForm = ({ onSubmit }: { onSubmit: () => void }) => {
     dispatch(
       create({
         color: '#ff9911',
-        content
+        content,
+        completed: false
       })
     )
 
