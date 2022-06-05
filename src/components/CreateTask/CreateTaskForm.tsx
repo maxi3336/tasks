@@ -9,7 +9,7 @@ interface FormTypes {
 }
 
 export const CreateTaskForm = ({ onSubmit }: { onSubmit: () => void }) => {
-  const { register, handleSubmit } = useForm<FormTypes>()
+  const { register, handleSubmit, reset } = useForm<FormTypes>()
   const dispatch = useDispatch()
 
   const submitHandler = ({ content }: FormTypes) => {
@@ -21,6 +21,7 @@ export const CreateTaskForm = ({ onSubmit }: { onSubmit: () => void }) => {
       })
     )
 
+    reset()
     onSubmit()
   }
 

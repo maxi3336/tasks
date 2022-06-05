@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
+import Button from 'ui/Button'
 import { CheckIcon, CloseIcon, PlusIcon } from 'ui/Icons'
 import Input from 'ui/Input'
 
@@ -13,7 +14,7 @@ interface FormTypes {
 export const CreateCategory = () => {
   const [creating, setCreating] = useState(false)
   const dispatch = useDispatch()
-  const { register, setFocus, handleSubmit } = useForm<FormTypes>()
+  const { register, setFocus, handleSubmit, reset } = useForm<FormTypes>()
 
   useEffect(() => {
     if (creating) {
@@ -30,6 +31,7 @@ export const CreateCategory = () => {
       })
     )
 
+    reset()
     setCreating(false)
   }
 
@@ -41,7 +43,7 @@ export const CreateCategory = () => {
           animate={creating ? 'open' : 'closed'}
           variants={{
             open: {
-              x: 'calc(-100% - 5rem)'
+              x: 'calc(100% + 15rem)'
             },
             closed: {
               x: 0
@@ -65,24 +67,33 @@ export const CreateCategory = () => {
               x: 0
             },
             closed: {
-              x: 'calc(100% + 5rem)'
+              x: 'calc(-100% - 15rem)'
             }
           }}
-          className="absolute w-full flex items-center justify-between"
+          className="absolute top-0 w-full items-center gap-2"
         >
           <Input
-            {...register('title')}
+            {...register('title', { required: true })}
             placeholder="Category title..."
-            style={{ width: '70%' }}
           />
-          <CheckIcon
-            onClick={() => setCreating(false)}
-            style={{ width: '1.3rem', height: '1.3rem' }}
-          />
-          <CloseIcon
-            onClick={() => setCreating(false)}
-            style={{ width: '1.3rem', height: '1.3rem' }}
-          />
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            <Button style={{ height: '2rem' }}>
+              <CheckIcon
+                className="text-white"
+                style={{ width: '1.3rem', height: '1.3rem', margin: '0 auto' }}
+              />
+            </Button>
+            <Button
+              type="button"
+              onClick={() => setCreating(false)}
+              style={{ height: '2rem', backgroundColor: '#FF5959' }}
+            >
+              <CloseIcon
+                className="text-white"
+                style={{ width: '1.3rem', height: '1.3rem', margin: '0 auto' }}
+              />
+            </Button>
+          </div>
         </motion.form>
       </div>
     </AnimatePresence>

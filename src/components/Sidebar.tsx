@@ -4,16 +4,23 @@ import { CloseIcon, HomeIcon, CalendarIcon, CheckIcon } from 'ui/Icons'
 import chroma from 'chroma-js'
 import { NavLink } from 'react-router-dom'
 import { CreateCategory } from './CreateCategory'
+import { CategoryState } from 'features/categories/categoriesSlice'
+import { useSelector } from 'react-redux'
+import { IRootState } from 'app/store'
 
 export const Sidebar: FC<{ isVisible: boolean; onClose: () => void }> = ({
   isVisible,
   onClose
 }) => {
+  const categories: CategoryState[] = useSelector<IRootState, CategoryState[]>(
+    (state) => state.categories
+  )
+
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.aside
-          className="fixed z-10 w-full h-full bg-white p-14"
+          className="fixed z-10 w-full h-full bg-white p-14 overflow-hidden"
           initial={{ x: '-100%', opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: '-100%', opacity: 0 }}
@@ -32,12 +39,17 @@ export const Sidebar: FC<{ isVisible: boolean; onClose: () => void }> = ({
               flag={CalendarIcon}
               count={20}
             />
-            <NavItem
-              title="Business"
-              path="/1"
-              flag="rgb(168, 85, 247)"
-              count={13}
-            />
+
+            {categories.map(({ id, title, color }) => (
+              <NavItem
+                key={id}
+                title={title}
+                path={id}
+                flag={color}
+                count={13}
+              />
+            ))}
+
             <NavItem
               title="Complete"
               path="/complete"
@@ -67,7 +79,7 @@ export const NavItem: FC<{
   return (
     <NavLink
       to={path}
-      className="flex items-center gap-6 py-4 px-6 rounded-2xl"
+      className="grid grid-cols-sidebar_category gap-6 items-center py-4 px-6 rounded-2xl"
       style={({ isActive }) => (isActive ? { background } : {})}
     >
       {typeof Flag === 'string' ? (
