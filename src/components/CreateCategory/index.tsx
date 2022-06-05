@@ -39,6 +39,8 @@ export const CreateCategory = () => {
     <AnimatePresence>
       <div className="relative flex items-center mt-4">
         <motion.div
+          tabIndex={0}
+          onKeyPress={() => setCreating(true)}
           className="flex items-center gap-6 py-4 px-6 rounded-2xl"
           animate={creating ? 'open' : 'closed'}
           variants={{
@@ -75,6 +77,7 @@ export const CreateCategory = () => {
           <Input
             {...register('title', { required: true })}
             placeholder="Category title..."
+            style={{ width: '100%' }}
           />
           <div className="mt-2 grid grid-cols-2 gap-2">
             <Button style={{ height: '2rem' }}>
