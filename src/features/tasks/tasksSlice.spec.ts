@@ -9,7 +9,7 @@ test('should return the initial state', () => {
 })
 
 test('should handle a todo being added to an empty list', () => {
-  const previousState: TaskState[] = []
+  const prevState: TaskState[] = []
 
   const newTask: TaskState = {
     id: '1',
@@ -27,11 +27,11 @@ test('should handle a todo being added to an empty list', () => {
     }
   ]
 
-  expect(reducer(previousState, create(newTask))).toEqual(equalState)
+  expect(reducer(prevState, create(newTask))).toEqual(equalState)
 })
 
 test('should handle a todo being added to an existing list', () => {
-  const previousState: TaskState[] = [
+  const prevState: TaskState[] = [
     {
       content: 'Run the tests',
       color: '#333',
@@ -55,11 +55,11 @@ test('should handle a todo being added to an existing list', () => {
     }
   ]
 
-  expect(reducer(previousState, create('Use Redux'))).toEqual(equalState)
+  expect(reducer(prevState, create('Use Redux'))).toEqual(equalState)
 })
 
 test("should toggle 'completed' field of a task", () => {
-  const previousState: TaskState[] = [
+  const prevState: TaskState[] = [
     {
       content: 'Toggle status',
       color: '#333',
@@ -77,11 +77,11 @@ test("should toggle 'completed' field of a task", () => {
     }
   ]
 
-  expect(reducer(previousState, toggle('555'))).toEqual(equalState)
+  expect(reducer(prevState, toggle('555'))).toEqual(equalState)
 })
 
 test('should remove a task with single task state', () => {
-  const previousState: TaskState[] = [
+  const prevState: TaskState[] = [
     {
       content: 'Remove task',
       color: '#333',
@@ -92,11 +92,11 @@ test('should remove a task with single task state', () => {
 
   const equalState: TaskState[] = []
 
-  expect(reducer(previousState, remove('123'))).toEqual(equalState)
+  expect(reducer(prevState, remove('123'))).toEqual(equalState)
 })
 
 test('should remove a task with multiple tasks state', () => {
-  const previousState: TaskState[] = [
+  const prevState: TaskState[] = [
     {
       content: 'Task Content',
       color: '#333',
@@ -132,11 +132,11 @@ test('should remove a task with multiple tasks state', () => {
     }
   ]
 
-  expect(reducer(previousState, remove('1'))).toEqual(equalState)
+  expect(reducer(prevState, remove('1'))).toEqual(equalState)
 })
 
 test('should remove some tasks', () => {
-  const previousState: TaskState[] = [
+  const prevState: TaskState[] = [
     {
       content: 'Task Content',
       color: '#333',
@@ -166,7 +166,7 @@ test('should remove some tasks', () => {
     }
   ]
 
-  expect(reducer(previousState, remove(['1', '2']))).toEqual(equalState)
+  expect(reducer(prevState, remove(['1', '2']))).toEqual(equalState)
 })
 
 test('should edit task', () => {

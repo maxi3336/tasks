@@ -4,7 +4,8 @@ import {
   MenuAlt4Icon,
   HomeIcon as Home,
   CalendarIcon as Calendar,
-  CheckIcon as Check
+  CheckIcon as Check,
+  PlusIcon as Plus
 } from '@heroicons/react/outline'
 import { ElementType, FC, ComponentProps } from 'react'
 
@@ -44,4 +45,8 @@ export const CalendarIcon = (props: ComponentProps<'svg'>) => (
 
 export const CheckIcon = (props: ComponentProps<'svg'>) => (
   <IconWrapper icon={Check} {...props} />
+)
+
+export const PlusIcon = (props: ComponentProps<'svg'>) => (
+  <IconWrapper icon={Plus} {...props} />
 )

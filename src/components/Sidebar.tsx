@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { CloseIcon, HomeIcon, CalendarIcon, CheckIcon } from 'ui/Icons'
 import chroma from 'chroma-js'
 import { NavLink } from 'react-router-dom'
+import { CreateCategory } from './CreateCategory'
 
 export const Sidebar: FC<{ isVisible: boolean; onClose: () => void }> = ({
   isVisible,
@@ -43,6 +44,8 @@ export const Sidebar: FC<{ isVisible: boolean; onClose: () => void }> = ({
               flag={CheckIcon}
               count={10}
             />
+
+            <CreateCategory />
           </nav>
         </motion.aside>
       )}
